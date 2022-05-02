@@ -1,0 +1,113 @@
+.done {
+  text-decoration: line-through;
+}
+
+.undone{
+  text-decoration: none;
+}
+
+body{
+  background-color: #E2E2E2;
+}
+
+h1, #first,#userinput{
+  text-align: center;
+}
+
+.center {
+  padding: 10px 0;
+  text-align: center;
+}
+
+#userinput{
+width: 50%;
+}
+
+input{
+  width: 10%;
+}
+
+ul{
+  list-style-type: none;
+}
+
+.highlight {
+  background-color: #000000;
+}
+
+.removeHighlight{
+  background-color: #E2E2E2;
+}
+body{
+  color: black;
+}
+
+.listDiv{
+  text-align: center;
+}
+
+#userinput{
+/*position: relative;*/
+width: 819px;
+height: 32px;
+left: 379px;
+top: 144px;
+border-radius: 8px;
+}
+
+#enter{
+/*position: absolute;*/
+width: 37px;
+height: 32px;
+left: 1050px;
+top: 146px;
+
+background: #C8D7BD;
+border-radius: 8px;
+}
+
+#highlight{
+/*position: static;*/
+margin-top: 10px;
+width: 185px;
+height: 26px;
+left: 1100px;
+top: 150px;
+
+background: #C8D7BD;
+border-radius: 8px;
+}
+
+#shuffle{
+/*position: static;*/
+margin-top: 10px;
+width: 185px;
+height: 26px;
+left: 1100px;
+top: 196px;
+
+background: #C8D7BD;
+border-radius: 8px;
+}
+
+.Delete{
+position:;
+width: 30px;
+height: 30px;
+left: 10px;
+top: 10px;
+
+background: #C8D7BD;
+border: 2px solid #C8D7BD;
+box-sizing: border-box;
+border-radius: 8px;
+margin-right: 10px;
+
+}
+
+.input{
+  margin-left: 10px;
+
+}
+
+
