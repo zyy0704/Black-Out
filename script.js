@@ -5,9 +5,17 @@ var ul = document.querySelector("ul");
 var item = document.getElementsByTagName("li");
 var delButtons = document.getElementsByClassName("Delete");
 var shuffleButton = document.getElementById("shuffle");
-var didStrike = 0;
 
-//adding tasks using mouse
+
+var loadButton = document.getElementById("load");
+var savedBod = document.getElementById("savedSets");
+var didStrike = 0;
+let notes = [];
+let sets = [];
+
+//adding notes using mouse
+
+if(button){
 button.addEventListener("click",function(){
 	if(input.value.length > 0){
 		createTask();
@@ -18,7 +26,10 @@ button.addEventListener("click",function(){
 		
 	} 
 })
+}
 
+//adding notes by enter key
+if(input){
 input.addEventListener("keypress",function(event){
 	if(input.value.length > 0 && event.code==="Enter"){
 		createTask();
@@ -28,10 +39,19 @@ input.addEventListener("keypress",function(event){
 
 	} 
 })
+}
+
+
 
 function createTask(){
 	var li = document.createElement("li");
 	li.setAttribute("class","note");
+	let note = {
+		id:"",
+		text: input.value
+	}
+	console.log(notes);
+	notes.push(note);
 	addDelete(li);
 	li.appendChild(document.createTextNode(input.value));
 	ul.appendChild(li);
@@ -57,7 +77,12 @@ function addAnswerBox(parent){
 	// var checkAnswer = parent.appendChild(check);
 }
 
-
+function load(){
+	var setButton = document.createElement("button");
+	setButton.setAttribute("class","chooseSetButton");
+	setButton.innerHTML = "hi";
+	document.getElementById("savedSets").appendChild(setButton);
+}
 
 // strike out task 
 // function strikeout(){
@@ -134,6 +159,20 @@ function deleteTask(){
     	}
     }
 
+    function save(){
+    	let id = prompt("Name Your Study Set!");
+    	for(var i = 0; i < notes.length; i++){
+    		let note = notes[i];
+    			note.id = id;
+    		
+    	}
+    	sets.push(id);
+    	localStorage.setItem(id,JSON.stringify(notes));
+    	for(var i = 0; i < item.length; i++){
+    		item[i].remove();
+    	}
+    }
+
     // function tnrFont(){
     // 	var items = ul.children;
     // 	for(i = 0; i < items.length; i++){
@@ -154,7 +193,6 @@ function deleteTask(){
     // 		items[i].style.fontFamily = "Verdana";
     // 	}
     // }
-
 
 
 
