@@ -9,9 +9,20 @@ var shuffleButton = document.getElementById("shuffle");
 
 var loadButton = document.getElementById("load");
 var savedBod = document.getElementById("savedSets");
+var dropdown = document.getElementById("dropdown-content");
 var didStrike = 0;
 let notes = [];
 let sets = [];
+
+while(sets.length > 0){
+	localStorage.setItem("set",JSON.stringify(sets));
+}
+
+if(performance.navigation.type == performance.navigation.TYPE_RELOAD){
+	var JSONset = localStorage.getItem("set");
+	sets = JSON.parse(JSONset);
+}
+  
 
 //adding notes using mouse
 
@@ -20,7 +31,6 @@ button.addEventListener("click",function(){
 	if(input.value.length > 0){
 		createTask();
 		input.value = "";
-		//strikeout();
 		highlightSelection();
 		deleteTask();
 		
@@ -34,13 +44,11 @@ input.addEventListener("keypress",function(event){
 	if(input.value.length > 0 && event.code==="Enter"){
 		createTask();
 		input.value = "";
-		//strikeout();
 		deleteTask();
 
 	} 
 })
 }
-
 
 
 function createTask(){
@@ -58,6 +66,14 @@ function createTask(){
 	addAnswerBox(li);
 }
 
+function loadNote(x){
+	var li = document.createElement("li");
+	li.setAttribute("class","note");
+	addDelete(li);
+	li.appendChild(document.createTextNode(x));
+	ul.appendChild(li);
+	addAnswerBox(li);
+}
 
 //adding delete button when adding tasks
 function addDelete(parent){
@@ -71,27 +87,7 @@ function addAnswerBox(parent){
 	var input = document.createElement("input");
 	input.setAttribute("class","input");
 	var answerElem = parent.appendChild(input);
-
-	// var check = document.createElement("button");
-	// check.setAttribute("class","check");
-	// var checkAnswer = parent.appendChild(check);
 }
-
-function load(){
-	var setButton = document.createElement("button");
-	setButton.setAttribute("class","chooseSetButton");
-	setButton.innerHTML = "hi";
-	document.getElementById("savedSets").appendChild(setButton);
-}
-
-// strike out task 
-// function strikeout(){
-// for(var i=0; i < item.length; i++){
-// 	item[i].addEventListener("click", function(){
-// 		this.classList.toggle("done");
-// 	})
-// }
-// }
 
 
 //delete task
@@ -102,27 +98,6 @@ function deleteTask(){
 				this.parentElement.remove();
 
 			}})}
-		// 	if(didStrike == 0){
-		// 		this.innerHTML ="&#10003";
-		// 	for(var i=0; i < item.length; i++){
-		// 		item[i].addEventListener("click", function(){
-		// 			this.classList.toggle("done");
-
-		// 		})
-		// 	}
-		// 	didStrike = 1;
-		// 	}else{
-		// 		for(var i=0; i < item.length; i++){
-		// 		item[i].addEventListener("click", function(){
-		// 			this.classList.toggle("undone");
-
-		// 		})
-		// 	}
-		// 		this.innerHTML = "&#9711";
-		// 		didStrike = 0;
-		// }
-
-		// })}
 	}
 
 	function highlightSelection() {
@@ -163,37 +138,58 @@ function deleteTask(){
     	let id = prompt("Name Your Study Set!");
     	for(var i = 0; i < notes.length; i++){
     		let note = notes[i];
+    		if(note.id == ""){
     			note.id = id;
+    		}
     		
     	}
+
     	sets.push(id);
-    	localStorage.setItem(id,JSON.stringify(notes));
+    	localStorage.setItem("set",JSON.stringify(sets));
+
+    	var notesById = [];
+    	for(var i = 0; i < notes.length; i++){
+    		if(notes[i].id == id){
+    			notesById.push(notes[i]);
+    		}
+    	}
+
+
+    	localStorage.setItem(id,JSON.stringify(notesById));
+    	for(var i = 0; i < item.length; i++){
+    		item[i].remove();
+    	}
+    	createDropDown(id);
+    }
+
+
+    function createDropDown(x){
+    	var setName = document.createElement("a");
+    	var setText = document.createTextNode(x);
+    	setName.setAttribute('href',"javascript:void(0)");
+    	setName.appendChild(setText);
+    	dropdown.appendChild(setName);
+    	setName.addEventListener("click", function(){
+    		displaySet(x);
+    	})
+
+    }
+
+    function displaySet(x){
+    	clearPage();
+    	var JSONset = localStorage.getItem(x);
+    	var notes = JSON.parse(JSONset);
+    	for(var i = 0; i < notes.length; i++){
+    		loadNote(notes[i].text);
+    	}
+
+    }
+
+    function clearPage(){
     	for(var i = 0; i < item.length; i++){
     		item[i].remove();
     	}
     }
-
-    // function tnrFont(){
-    // 	var items = ul.children;
-    // 	for(i = 0; i < items.length; i++){
-    // 		items[i].style.fontFamily = "New Times Roman";
-    // 	}
-    // }
-
-    // function cnFont(){
-    // 	var items = ul.children;
-    // 	for(i = 0; i < items.length; i++){
-    // 		items[i].style.fontFamily = "Courier New";
-    // 	}
-    // }
-
-    // function vFont(){
-    // 	var items = ul.children;
-    // 	for(i = 0; i < items.length; i++){
-    // 		items[i].style.fontFamily = "Verdana";
-    // 	}
-    // }
-
 
 
 
