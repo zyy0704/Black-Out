@@ -1,5 +1,5 @@
 
-var button = document.getElementById("enter");
+var enterButton = document.getElementById("enter");
 var input = document.getElementById("userinput");
 var ul = document.querySelector("ul");
 var a = document.querySelector("a");
@@ -8,18 +8,15 @@ var delButtons = document.getElementsByClassName("Delete");
 var shuffleButton = document.getElementById("shuffle");
 
 
-var loadButton = document.getElementById("load");
-var savedBod = document.getElementById("savedSets");
 var dropdown = document.getElementById("dropdown-content");
 var dropdownDelete = document.getElementById("dropdown-delete");
-var didStrike = 0;
+
+
 let notes = [];
 let sets = [];
 
-// while(sets.length > 0){
-// 	localStorage.setItem("set",JSON.stringify(sets));
-// }
 
+// reload sets if user refreshes screen
 if(performance.navigation.type == performance.navigation.TYPE_RELOAD){
 
 	var JSONset = localStorage.getItem("set");
@@ -35,15 +32,12 @@ if(performance.navigation.type == performance.navigation.TYPE_RELOAD){
 }
 
 //adding notes using mouse
-
-if(button){
-	button.addEventListener("click",function(){
+if(enterButton){
+	enterButton.addEventListener("click",function(){
 		if(input.value.length > 0){
-			createTask();
+			createNote();
 			input.value = "";
 			highlightSelection();
-			deleteTask();
-
 		} 
 	})
 }
@@ -52,16 +46,15 @@ if(button){
 if(input){
 	input.addEventListener("keypress",function(event){
 		if(input.value.length > 0 && event.code==="Enter"){
-			createTask();
+			createNote();
 			input.value = "";
-			deleteTask();
 
 		} 
 	})
 }
 
 //creating note
-function createTask(){
+function createNote(){
 	var li = document.createElement("li");
 	li.setAttribute("class","note");
 	let note = {
@@ -83,6 +76,9 @@ function addDelete(parent){
 	del.setAttribute("class","Delete");
 	var buttonElem = parent.appendChild(del);
 	buttonElem.innerHTML = "&#9711";
+	buttonElem.addEventListener("click",function(){
+		this.parentElement.remove();
+	})
 }
 
 //adding answer box when adding notes
@@ -91,17 +87,6 @@ function addAnswerBox(parent){
 	input.setAttribute("class","input");
 	var answerElem = parent.appendChild(input);
 }
-
-
-//delete note
-function deleteTask(){
-	for(var i = 0; i < delButtons.length; i++){
-		delButtons[i].addEventListener("click", function(){
-			if(this.id != "enter"){
-				this.parentElement.remove();
-
-			}})}
-	}
 
 //highlight function
 function highlightSelection() {
@@ -119,6 +104,7 @@ function highlightSelection() {
         		var span = document.createElement('span');
         		span.className = 'highlight';
         		range.surroundContents(span);
+
         		span.addEventListener("mouseover",function(){
         			span.classList.toggle("removeHighlight");
         		})
@@ -191,7 +177,7 @@ function displaySet(x,y){
 			loadNote(notes[i].text);
 		}
 	} else{
-		deleteNote(x);
+		deleteSet(x);
 		
 	}
 
@@ -206,21 +192,25 @@ function loadNote(x){
 	addAnswerBox(li);
 }
 
-function deleteNote(x){
+function deleteSet(x){
 	const index = sets.indexOf(x);
-	console.log(index);
 	if(index > -1){
 		sets.splice(index,1);
 	}
-	console.log(x);
 	var setToDelete = document.getElementsByClassName(x);
-	console.log(setToDelete[0]);
 	setToDelete[0].parentNode.removeChild(setToDelete[0]);
 	setToDelete[0].parentNode.removeChild(setToDelete[0]);
+
 	localStorage.removeItem("set");
 	localStorage.removeItem(x);
 	localStorage.setItem("set",JSON.stringify(sets));
-	console.log(sets)
+
+	var i = notes.length;
+	while(i--){
+		if(notes[i].id == x){
+			notes.splice(i,1);
+		}
+	}
 }
 
 function clearPage(x){
