@@ -78,6 +78,13 @@ function addDelete(parent){
 	buttonElem.innerHTML = "&#9711";
 	buttonElem.addEventListener("click",function(){
 		this.parentElement.remove();
+
+	// const index = notes.indexOf(this.parentElement);
+	// console.log(parent);
+	// if(index > -1){
+	// 	notes.splice(index,1);
+	// }
+
 	})
 }
 

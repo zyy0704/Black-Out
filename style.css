@@ -42,9 +42,9 @@ body{
   color: black;
 }
 
-.listDiv{
+/*.listDiv{
   text-align: center;
-}
+}*/
 
 #userinput{
 /*position: relative;*/
@@ -101,7 +101,6 @@ border-radius: 8px;
 }
 
 .Delete{
-position:;
 width: 30px;
 height: 30px;
 left: 10px;
@@ -166,6 +165,7 @@ border-radius: 8px;
 
 #dropdown-content a {
   color: black;
+  background-color: #f1f1f1;
   padding: 12px 16px;
   text-decoration: none;
   display: block;
@@ -195,6 +195,7 @@ border-radius: 8px;
 #dropdown-delete a {
   color: black;
   padding: 12px 16px;
+  background-color: #f1f1f1;
   text-decoration: none;
   display: block;
 }
@@ -206,6 +207,10 @@ border-radius: 8px;
 
 .dropdown:hover #dropdown-delete {display: block;}
 
-
+.listDiv{
+  align-content: center;
+  justify-content: center;
+  display: flex;
+}
 
 
